@@ -1,7 +1,8 @@
 import { GoogleGenAI, Type } from "@google/genai";
 import { OCRResult, GeneratedProblem } from "../types";
 
-const ai = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY });
+const apiKey = process.env.GEMINI_API_KEY || process.env.ll;
+const ai = new GoogleGenAI({ apiKey: apiKey as string });
 
 export async function recognizeMistake(base64Image: string): Promise<OCRResult> {
   const model = "gemini-3-flash-preview";
