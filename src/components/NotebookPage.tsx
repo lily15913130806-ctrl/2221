@@ -92,10 +92,12 @@ export default function NotebookPage({ records, onDelete }: NotebookPageProps) {
               {viewingRecord.generatedProblems.map((p, idx) => (
                 <div key={idx} className="bg-white rounded-xl border border-gray-200 p-4 space-y-3">
                   <div className="flex items-center gap-2">
-                    <span className="w-6 h-6 bg-blue-100 text-blue-600 rounded-full flex items-center justify-center text-xs font-bold">
+                    <span className="w-6 h-6 bg-blue-100 text-blue-600 rounded-full flex items-center justify-center text-xs font-bold flex-shrink-0">
                       {idx + 1}
                     </span>
-                    <p className="text-gray-800 font-medium">{p.question}</p>
+                    <div className="text-gray-800 font-medium prose prose-sm max-w-none">
+                      <ReactMarkdown>{p.question}</ReactMarkdown>
+                    </div>
                   </div>
                   <div className="pl-8 space-y-2">
                     <div className="text-sm">

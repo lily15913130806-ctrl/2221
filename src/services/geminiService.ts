@@ -7,8 +7,8 @@ export async function recognizeMistake(base64Image: string): Promise<OCRResult> 
   const model = "gemini-3-flash-preview";
   const prompt = `
     你是一个专业的全科题目识别助手。请识别图片中的错题内容，并提取以下信息：
-    1. 题目文本 (question)
-    2. 选项 (options, 如果有)
+    1. 题目文本 (question): 包含完整的题目描述。如果是选择题，请将选项（A, B, C, D等）也包含在题目文本中，并使用 Markdown 格式清晰排版。
+    2. 选项 (options, 如果有): 仅提取选项内容作为数组。
     3. 标准答案 (standardAnswer, 如果有)
     4. 题目解析 (explanation, 如果有)
     5. 核心知识点 (knowledgePoint, 如“一元二次方程根的判别式”、“现在完成时态”等)
@@ -65,6 +65,7 @@ export async function generateSimilarProblems(
     1. 覆盖同一知识点的不同角度或变换形式。
     2. 难度与原题相当。
     3. 每道题必须附带正确答案、解析以及“易错点分析”。
+    4. 如果生成的是选择题，请确保选项（A, B, C, D等）在 question 字段中清晰排版，每个选项占一行，使用 Markdown 列表或加粗标识。
     
     请以 JSON 数组格式返回。
   `;

@@ -44,7 +44,20 @@ export default function RecognitionPage({ onSave }: RecognitionPageProps) {
     setLoading(true);
     try {
       const result = await recognizeMistake(base64);
-      setOcrResult(result);
+      // Ensure options are in the question text if they were extracted separately
+      let finalQuestion = result.question;
+      if (result.options && result.options.length > 0) {
+        const optionsText = result.options.map((opt, i) => {
+          const label = String.fromCharCode(65 + i); // A, B, C...
+          if (!opt.startsWith(label)) return `${label}. ${opt}`;
+          return opt;
+        }).join("\n");
+        
+        if (!finalQuestion.includes(result.options[0].substring(0, 5))) {
+          finalQuestion += "\n\n" + optionsText;
+        }
+      }
+      setOcrResult({ ...result, question: finalQuestion });
     } catch (error) {
       console.error("OCR Error:", error);
       alert("识别失败，请重试或手动输入。");
